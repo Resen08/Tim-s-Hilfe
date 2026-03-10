@@ -2,7 +2,7 @@
 
 class Auth {
 
-
+    const MAX_SESSION_AGE = 1800;
     private $db;
 
     public function __construct() {
@@ -22,6 +22,8 @@ class Auth {
                 session_start();
                 $_SESSION['loggedin'] = true;
                 $_SESSION['username'] = $user;
+                $_SESSION['timestamp'] = time();
+                $this->createSecret($user);
                 header("Location: dashboard.php");
                 return;
             }
@@ -54,22 +56,29 @@ class Auth {
     }
 
     private function createSecret($user){
-        $secret = hash($_SERVER['RMOTE_ADDR'] . $_SERVER['HTTP_USER_AGENT']);
+        $secret = hash('sha256', $_SERVER['RMOTE_ADDR'] . $_SERVER['HTTP_USER_AGENT']);
         $stmt = "UPDATE user SET secret='$secret' WHERE user='$user'";
         $this->db->query($stmt);
     }
 
     public function checkAuth(){     
-        if (!isset($_SESSION['loggedin']) || $_SESSION['loggedin'] != true) {
+        $secret = hash($_SERVER['RMOTE_ADDR'] . $_SERVER['HTTP_USER_AGENT']);
+        $stmt = "SELECT * FROM userDB WHERE secret='$secret' AND user='$_SESSION[user]'";
+        $this->db->query($stmt);
+        if(!isset($_SESSION['loggedin']) || $_SESSION['loggedin'] != true || $this->db->affected_rows !=1){
             header("Location: index.php");
             exit();
         }
-        $secret = hash($_SERVER['RMOTE_ADDR'] . $_SERVER['HTTP_USER_AGENT']);
-        $stmt = "UPDATE * SET secret='$secret' WHERE user='$_SESSION[user]'";
-        $this->db->query($stmt);
-        if($this->db->affected_rows !=1){
-            header("Location: index.php");
-            exit();
+    }
+
+    private function sessionRenew(){
+        if(isset($_SESSION['timestamp'])){
+            $diff = time() - $_SESSION['timestamp'];
+            if($diff > self::MAX_SESSION_AGE){
+                $_SESSION['timestamp'] = time();
+            }
+        } else{
+            $this->logout();
         }
     }
 }
