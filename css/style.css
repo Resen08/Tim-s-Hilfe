@@ -1,0 +1,147 @@
+:root {
+	--gradient-shadow: linear-gradient(
+		45deg,
+		#fb0094,
+		#0000ff,
+		#00ff00,
+		#ffff00,
+		#ff0000,
+		#fb0094,
+		#0000ff,
+		#00ff00,
+		#ffff00,
+		#ff0000
+	);
+	--camel: #B49A79ff;
+	--pale-oak: #CDC4B4ff;
+	--deep-walnut: #52412Aff;
+}
+body {
+    background: black;
+    font-family: sans-serif;
+	margin: 0;
+	padding: 0;
+}
+.container {
+    min-width: 100vw;
+    min-height: 100vh;
+    display: flex;
+	flex-direction: column;
+    justify-content: center;
+    align-items: center;
+}
+.posts {
+	width: 60vw;
+	background-color: #111;
+	margin:auto;
+	color: var(--deep-walnut);
+}
+.posts a {
+	color: var(--deep-walnut);
+	font-weight: bold;
+	text-decoration: none;
+}
+.posts a:hover {
+	text-decoration: underline;
+}
+.posts header {
+	margin-top: 1rem;
+	background: var(--pale-oak);
+	font-size: 1.5rem;
+	font-weight: bold;
+	font-family: serif;
+	padding:0.25rem;
+	text-shadow: none;
+	text-align: left;
+}
+.posts footer {
+	display: flex;
+	background: var(--pale-oak);
+	padding:0.25rem;
+	justify-content: space-between;
+}
+.posts section {
+	font-family: monospace;
+	background: #fff;
+	padding:0.25rem;
+}
+.error {
+	font-size: 0.9em;
+	width: 80%;
+	background: #ff7373;
+	color: red;
+	border: 2px solid red;
+	padding: 0.5rem;
+	font-weight: bold;
+	margin: auto;
+}
+#loginform {
+    position: relative;
+    background: linear-gradient(0deg, #d6d6d6, #fff);
+    width: 40em;
+    text-align: center;
+    animation: 3s linear 1s slide-in;
+}
+#loginform:before,
+#loginform:after {
+	content: "";
+	position: absolute;
+	top: -2px;
+	left: -2px;
+	background: var(--gradient-shadow);
+	background-size: 400%;
+	width: calc(100% + 4px);
+	height: calc(100% + 4px);
+	z-index: -1;
+	animation: animate 20s linear infinite;
+}
+
+#loginform:after {
+	filter: blur(20px);
+}
+
+@keyframes animate {
+	0% {
+		background-position: 0 0;
+	}
+	50% {
+		background-position: 300% 0;
+	}
+	100% {
+		background-position: 0 0;
+	}
+}
+
+input, textarea {
+    font-family: sans-serif;
+    border-radius: 0.25em;
+    border: none;
+    padding:0.5em;
+}
+input[type="submit"], button {
+    background: linear-gradient(#aaa,#fff,#aaa);
+    border: 2px solid #666;
+    font-weight: bold;
+    cursor: pointer;
+}
+input[type="submit"]:hover {
+    background: linear-gradient(#777,#ddd,#777);
+    text-shadow: 0px 0px 5px #fff;
+}
+header {
+	background: transparent url('../img/header.jpg') center center no-repeat;
+	background-size: cover;
+	text-align: center;
+	font-family: serif;
+	font-weight: bold;
+	font-size: 3rem;
+	padding: 1rem;
+	text-shadow: 0px 0px 2px white;
+}
+header span {
+	backdrop-filter: blur(5px);
+}
+.userinfo {
+	background: linear-gradient(#999, #fff, #999);
+	padding: 1rem;
+}
